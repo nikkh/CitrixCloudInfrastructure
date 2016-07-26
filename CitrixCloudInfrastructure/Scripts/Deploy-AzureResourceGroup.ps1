@@ -15,7 +15,7 @@ Param(
 )
 
 Import-Module Azure -ErrorAction SilentlyContinue
-
+#
 try {
     [Microsoft.Azure.Common.Authentication.AzureSession]::ClientFactory.AddUserAgent("VSAzureTools-$UI$($host.name)".replace(" ","_"), "2.9")
 } catch { }
