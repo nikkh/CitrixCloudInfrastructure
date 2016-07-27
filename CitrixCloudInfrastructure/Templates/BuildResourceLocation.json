@@ -140,6 +140,7 @@
           }
         }
       }
+      
     },
 
     {
@@ -157,17 +158,17 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          
+
           "adNicName": {
             "value": "[variables('adNicName')]"
           },
-          "adNicIPAddress": {
+          "domainControllerStaticIPAddress": {
             "value": "[parameters('domainControllerStaticIPAddress')]"
           },
           "adSubnetRef": {
             "value": "[variables('adSubnetRef')]"
           }
-          }
+        }
         }
       },
     
