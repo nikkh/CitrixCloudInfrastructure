@@ -35,6 +35,7 @@
     <None Include="Templates\buildresourcelocation.parameters.json" />
     <None Include="Templates\DSC\CreateADPDC.ps1.zip" />
     <None Include="Templates\shared_resources\createbasevnet.json" />
+    <None Include="Templates\shared_resources\createdomaincontroller.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

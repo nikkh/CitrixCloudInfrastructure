@@ -2,12 +2,18 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
   "parameters": {
-    "virtualNetworkName": {
+    "pocEnvironmentName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the virtual network that you will connect to from Citrix Cloud"
+        "description": "This is the root name for all resources created as part of this template.  For example if you specify mypoc here the domain controller will be mypoc-AD.  please use only lowercase letters."
       },
-      "defaultValue": "ccpocDEVVnet"
+      "defaultValue": "ccpoc"
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password for the Administrator account for the domain and all VMs"
+      }
     },
     "virtualNetworkAddressRange": {
       "type": "string",
@@ -36,10 +42,28 @@
         "description": "The address range of the VDA subnet created in the new VNET"
       },
       "defaultValue": "10.60.2.0/24"
+    },
+    "domainControllerStaticIPAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "The IP address of the new AD VM"
+      },
+      "defaultValue": "10.60.0.4"
     }
 
   },
   "variables": {
+    "virtualNetworkName": "[concat(parameters('pocEnvironmentName'),'VNet')]",
+    "adVMName": "[concat(parameters('pocEnvironmentName'),'-AD')]",
+    "pocAdminUser": "[concat(parameters('pocEnvironmentName'),'admin')]",
+    "adDomain": "[concat(parameters('pocEnvironmentName'),'.local')]",
+    "adNicName": "[concat(variables('adVMName'), '-NIC')]",
+    "adNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('adNicName'))]",
+    "adDataDisk": "ADDataDisk",
+    "adDataDiskSize": 1000,
+    "adIPConfigID": "[concat(variables('adNicId'),'/ipConfigurations/adipconfig')]",
+    "VnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
+    "adSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('adSubnetName'))]",
     "adSubnetName": "adSubnet",
     "vdaSubnetName": "vdaSubnet",
     "cloudConnectorSubnetName": "cloudConnectorSubnet",
@@ -64,43 +88,131 @@
       }
     ],
 
-    "vnetSetupURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createbasevnet.json')]" 
+    "createbasevnetURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createbasevnet.json')]",
+    "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdomaincontroller.json')]",
+    "provisiondomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'DSC/CreateADPDC.ps1.zip')]",
+    "adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+    "storageAccountNamePrefix": "[concat(parameters('pocEnvironmentName'), uniqueString(resourceGroup().id))]"
 
-   
-
-  },
-  "resources": [
-    {
-      "name": "ResourceLocationVirtualNetwork",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('vnetSetupURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-
-          "virtualNetworkName": {
-            "value": "[parameters('virtualNetworkName')]"
+  }
+    "resources": [
+      {
+        "name": "ResourceLocationVirtualNetwork",
+        "location": "[resourceGroup().location]",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('createbasevnetURL')]",
+            "contentVersion": "1.0.0.0"
           },
-          "virtualNetworkAddressRange": {
-            "value": "[parameters('virtualNetworkAddressRange')]"
+          "parameters": {
+
+            "virtualNetworkName": {
+              "value": "[variables('virtualNetworkName')]"
+            },
+            "virtualNetworkAddressRange": {
+              "value": "[parameters('virtualNetworkAddressRange')]"
+            },
+            "subnets": {
+              "value": "[variables('subnets')]"
+            }
+          }
+        }
+      },
+      {
+        "apiVersion": "2015-06-15",
+        "location": "[resourceGroup().location]",
+        "name": "CloudConnectorAvailabilitySet",
+        "type": "Microsoft.Compute/availabilitySets",
+        "properties": { }
+      },
+      {
+        "name": "DomainControllerNic",
+        "type": "Microsoft.Network/networkInterfaces",
+        "location": "[resourceGroup().location]",
+        "apiVersion": "2015-06-15",
+        "dependsOn": [
+          "Microsoft.Resources/deployments/ResourceLocationVirtualNetwork"
+
+        ],
+        "properties": {
+          "ipConfigurations": [
+            {
+              "name": "adipconfig",
+              "properties": {
+                "privateIPAllocationMethod": "Static",
+                "privateIPAddress": "[parameters('domainControllerStaticIPAddress')]",
+                "subnet": {
+                  "id": "[variables('adSubnetRef')]"
+                }
+              }
+
+            }
+          ]
+        }
+
+
+      },
+
+
+      {
+        "name": "CreateDomainController",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "Microsoft.Resources/deployments/CloudConnectorAvailabilitySet",
+          "Microsoft.Resources/deployments/ResourceLocationVirtualNetwork",
+          "Microsoft.Resources/deployments/DomainControllerNic"
+
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('createdomaincontrollerUrl')]",
+            "contentVersion": "1.0.0.0"
           },
-          "subnets": {
-            "value": "[variables('subnets')]"
+          "parameters": {
+
+            "adVMName": {
+              "value": "[variables('adVMName')]"
+            },
+            "adVMSize": {
+              "value": "Standard_D1"
+            },
+
+            "adminUsername": {
+              "value": "[variables('pocAdminUser')]"
+            },
+            "adminPassword": {
+              "value": "[parameters('adminPassword')]"
+            },
+            "storageAccountNamePrefix": {
+              "value": "[variables('storageAccountNamePrefix')]"
+            },
+            "adDataDisk": {
+              "value": "[variables('adDataDisk')]"
+            },
+            "adNicName": {
+              "value": "[variables('adNicName')]"
+            },
+            "adModulesURL": {
+              "value": "[variables('provisiondomaincontrollerURL')]"
+            },
+            "adConfigurationFunction": {
+              "value": "[variables('adConfigurationFunction')]"
+            },
+            "domainName": {
+              "value": "[variables('adDomain')]"
+            }
           }
         }
       }
-    },
-    {
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "CloudConnectorAvailabilitySet",
-      "apiVersion": "2015-06-15",
-      "location": "[resourceGroup().location]"
-    }
-  ],
+
+    ],
+
     "outputs": {
     }
-}
+  }
+  
