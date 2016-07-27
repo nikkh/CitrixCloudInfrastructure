@@ -91,7 +91,7 @@
     "createbasevnetURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createbasevnet.json')]",
     "createavailabilitysetsURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createavailabilitysets.json')]",
     "createdomaincontrollernicURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdomaincontrollernic.json')]",
-    "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdomaincontroller.json')]",
+    "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, '/shared_resources/createDomainController.json')]",
     "provisiondomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'DSC/CreateADPDC.ps1.zip')]",
     "adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
     "storageAccountNamePrefix": "[concat(parameters('pocEnvironmentName'), uniqueString(resourceGroup().id))]"
