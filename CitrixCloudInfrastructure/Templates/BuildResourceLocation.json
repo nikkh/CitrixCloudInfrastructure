@@ -71,7 +71,7 @@
   },
   "resources": [
     {
-      "name": "SettingUpVirtualNetwork",
+      "name": "ResourceLocationVirtualNetwork",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "properties": {
