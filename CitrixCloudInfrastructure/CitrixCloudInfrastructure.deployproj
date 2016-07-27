@@ -25,16 +25,15 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <Folder Include="Scripts\" />
-    <Folder Include="Templates\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
-    <Content Include="Templates\WindowsVirtualMachine.json" />
-    <Content Include="Templates\WindowsVirtualMachine.parameters.json" />
+    <None Include="Scripts\Start-AzureRMRGVMs.ps1" />
+    <None Include="Templates\buildresourcelocation.json" />
+    <None Include="Templates\buildresourcelocation.parameters.json" />
+    <None Include="Templates\DSC\CreateADPDC.ps1.zip" />
+    <None Include="Templates\shared_resources\createbasevnet.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

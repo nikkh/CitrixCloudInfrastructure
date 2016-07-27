@@ -1,0 +1,99 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Virtual Network to Create"
+      },
+      "defaultValue": "ccpocVNET"
+    },
+    "virtualNetworkAddressRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the new VNET "
+      },
+      "defaultValue": "10.60.0.0/16"
+    },
+    "adSubnetRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the AD subnet created in the new VNET"
+      },
+      "defaultValue": "10.60.0.0/24"
+    },
+    "vdaSubnetRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the SQL subnet created in the new VNET"
+      },
+      "defaultValue": "10.60.1.0/24"
+    },
+    "cloudConnectorSubnetRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the SP subnet created in the new VNET"
+      },
+      "defaultValue": "10.60.2.0/24"
+    }
+  },
+  "variables": {
+    "adSubnetName": "adSubnet",
+    "vdaSubnetName": "vdaSubnet",
+    "cloudConnectorSubnetName": "cloudConnectorSubnet",
+    "subnets": [
+      {
+        "name": "[variables('adSubnetName')]",
+        "properties": {
+          "addressPrefix": "[parameters('adSubnetRange')]"
+        }
+      },
+      {
+        "name": "[variables('vdaSubnetName')]",
+        "properties": {
+          "addressPrefix": "[parameters('vdaSubnetRange')]"
+        }
+      },
+      {
+        "name": "[variables('cloudConnectorSubnetName')]",
+        "properties": {
+          "addressPrefix": "[parameters('cloudConnectorSubnetRange')]"
+        }
+      }
+    ],
+
+    "vnetSetupURL": "[uri(deployment().properties.templateLink.uri, 'shared-resources/createbasevnet.json')]",
+
+   
+
+  },
+  "resources": [
+    {
+      "name": "SettingUpVirtualNetwork",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('vnetSetupURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+         
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "virtualNetworkAddressRange": {
+            "value": "[parameters('virtualNetworkAddressRange')]"
+          },
+          "subnets": {
+            "value": "[variables('subnets')]"
+          }
+        }
+      }
+    }
+  ],
+    "outputs": {
+    }
+}
