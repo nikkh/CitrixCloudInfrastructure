@@ -5,14 +5,14 @@
     "virtualNetworkName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Virtual Network to Create"
+        "description": "The name of the virtual network that you will connect to from Citrix Cloud"
       },
-      "defaultValue": "ccpocVNET"
+      "defaultValue": "ccpocDEVVnet"
     },
     "virtualNetworkAddressRange": {
       "type": "string",
       "metadata": {
-        "description": "The address range of the new VNET "
+        "description": "The address range of the VNET for this resource location "
       },
       "defaultValue": "10.60.0.0/16"
     },
@@ -23,20 +23,21 @@
       },
       "defaultValue": "10.60.0.0/24"
     },
-    "vdaSubnetRange": {
-      "type": "string",
-      "metadata": {
-        "description": "The address range of the SQL subnet created in the new VNET"
-      },
-      "defaultValue": "10.60.1.0/24"
-    },
     "cloudConnectorSubnetRange": {
       "type": "string",
       "metadata": {
-        "description": "The address range of the SP subnet created in the new VNET"
+        "description": "The address range of the Cloud Connector subnet created in the new VNET"
+      },
+      "defaultValue": "10.60.1.0/24"
+    },
+    "vdaSubnetRange": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the VDA subnet created in the new VNET"
       },
       "defaultValue": "10.60.2.0/24"
     }
+
   },
   "variables": {
     "adSubnetName": "adSubnet",
@@ -80,7 +81,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-         
+
           "virtualNetworkName": {
             "value": "[parameters('virtualNetworkName')]"
           },
@@ -92,6 +93,12 @@
           }
         }
       }
+    },
+    {
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "CloudConnectorAvailabilitySet",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]"
     }
   ],
     "outputs": {
