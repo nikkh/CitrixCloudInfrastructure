@@ -100,7 +100,7 @@
   "resources": [
     {
       "name": "CreateResourceLocationVirtualNetwork",
-      "location": "[resourceGroup().location]",
+      
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "properties": {
