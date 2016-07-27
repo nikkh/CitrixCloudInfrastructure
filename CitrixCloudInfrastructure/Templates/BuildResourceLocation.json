@@ -89,6 +89,7 @@
     ],
 
     "createbasevnetURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createbasevnet.json')]",
+    "createstorageaccountURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createstorageaccount.json')]",
     "createavailabilitysetsURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createavailabilitysets.json')]",
     "createdomaincontrollernicURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdomaincontrollernic.json')]",
     "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createDomainController.json')]",
@@ -99,8 +100,29 @@
   },
   "resources": [
     {
+      "name": "CreateStorageAccount",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createstorageaccountURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "storageAccountType": {
+            "value": "Standard_LRS"
+          },
+          "storageAccountNamePrefix": {
+            "value": "[variables('storageAccountNamePrefix')]"
+          }
+        }
+      }
+    },
+    {
       "name": "CreateResourceLocationVirtualNetwork",
-      
+
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "properties": {
@@ -140,7 +162,7 @@
           }
         }
       }
-      
+
     },
 
     {
@@ -149,7 +171,7 @@
       "apiVersion": "2015-01-01",
       "dependsOn": [
         "Microsoft.Resources/deployments/CreateResourceLocationVirtualNetwork"
-        
+
       ],
       "properties": {
         "mode": "Incremental",
@@ -169,10 +191,10 @@
             "value": "[variables('adSubnetRef')]"
           }
         }
-        }
-      },
-    
-      
+      }
+    },
+
+
 
     {
       "name": "CreateDomainController",

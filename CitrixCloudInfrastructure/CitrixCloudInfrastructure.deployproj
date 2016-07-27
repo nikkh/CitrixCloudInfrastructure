@@ -38,6 +38,7 @@
     <None Include="Templates\shared_resources\createavailabilitysets.json" />
     <None Include="Templates\shared_resources\createbasevnet.json" />
     <None Include="Templates\shared_resources\createdomaincontroller.json" />
+    <None Include="Templates\shared_resources\createstorageaccount.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
