@@ -77,8 +77,8 @@
               },
               "name": "[concat(parameters('adVMName'),'-data-disk1')]",
               "caching": "None",
-              "createOption": "empty",
-              "diskSizeGB": 1000,
+              
+              "diskSizeGB": "1000",
               "lun": 0
             }
           ]
@@ -99,10 +99,10 @@
       },
       "resources": [
         {
-          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "extensions": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(parameters('adVMName'),'/InstallDomainController')]",
           "apiVersion": "2015-06-15",
-          "location": "[parameters('location')]",
+          "location": "[resourceGroup().location]",
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('adVMName'))]"
           ],
