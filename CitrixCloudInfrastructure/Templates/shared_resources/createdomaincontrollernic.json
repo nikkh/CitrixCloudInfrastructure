@@ -15,7 +15,7 @@
   },
   "resources": [
     {
-      "name": "variables('adNicName')",
+      "name": "[parameters('adNicName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
