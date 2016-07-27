@@ -94,7 +94,7 @@
     "adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
     "storageAccountNamePrefix": "[concat(parameters('pocEnvironmentName'), uniqueString(resourceGroup().id))]"
 
-  }
+  },
     "resources": [
       {
         "name": "ResourceLocationVirtualNetwork",
