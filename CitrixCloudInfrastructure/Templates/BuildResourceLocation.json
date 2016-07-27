@@ -64,7 +64,7 @@
       }
     ],
 
-    "vnetSetupURL": "[uri(deployment().properties.templateLink.uri, 'shared-resources/createbasevnet.json')]" 
+    "vnetSetupURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createbasevnet.json')]" 
 
    
 
