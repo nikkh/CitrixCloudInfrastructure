@@ -1,0 +1,40 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adNicName": {
+      "type": "string"
+    },
+    "domainControllerStaticIPAddress": {
+      "type": "string"
+    },
+    "adSubnetRef": {
+      "type": "string"
+    }
+
+  },
+  "resources": [
+    {
+      "name": "variables('adNicName')",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "adipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('domainControllerStaticIPAddress')]",
+              "subnet": {
+                "id": "[parameters('adSubnetRef')]"
+              }
+            }
+
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {}
+}
