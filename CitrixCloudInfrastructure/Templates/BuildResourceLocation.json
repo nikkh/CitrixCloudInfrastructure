@@ -57,7 +57,7 @@
     "adVMName": "[concat(parameters('pocEnvironmentName'),'-AD')]",
     "pocAdminUser": "[concat(parameters('pocEnvironmentName'),'admin')]",
     "adDomain": "[concat(parameters('pocEnvironmentName'),'.local')]",
-    "adNicName": "[concat(variables('adVMName'), '-NIC')]",
+    "adNicName": "[concat(variables('adVMName'), 'nic')]",
     "adNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('adNicName'))]",
     "adDataDisk": "ADDataDisk",
     "adDataDiskSize": 1000,
