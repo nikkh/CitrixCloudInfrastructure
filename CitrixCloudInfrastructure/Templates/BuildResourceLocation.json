@@ -54,7 +54,7 @@
   },
   "variables": {
     "virtualNetworkName": "[concat(parameters('pocEnvironmentName'),'VNet')]",
-    "adVMName": "[concat(parameters('pocEnvironmentName'),'-AD')]",
+    "adVMName": "[concat(parameters('pocEnvironmentName'),'AD')]",
     "pocAdminUser": "[concat(parameters('pocEnvironmentName'),'admin')]",
     "adDomain": "[concat(parameters('pocEnvironmentName'),'.local')]",
     "adNicName": "[concat(variables('adVMName'), 'nic')]",
