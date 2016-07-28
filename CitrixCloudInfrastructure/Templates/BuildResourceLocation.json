@@ -95,7 +95,7 @@
     "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createDomainController.json')]",
     "provisiondomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'DSC/CreateADPDC.ps1.zip')]",
     "adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
-    "storageAccountNamePrefix": "[concat(parameters('pocEnvironmentName'), uniqueString(resourceGroup().id))]"
+    "storageAccountNamePrefix": "[concat(parameters('pocEnvironmentName'), 'dcvm', uniqueString(resourceGroup().id))]"
 
   },
   "resources": [
