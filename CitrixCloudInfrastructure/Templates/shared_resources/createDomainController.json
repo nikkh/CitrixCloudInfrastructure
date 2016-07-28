@@ -90,7 +90,8 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": "true",
-            "storageUri": "[concat('http://',parameters('storageAccountNamePrefix'),'2.blob.core.windows.net')]"
+            "storageUri": "[concat('http://',parameters('storageAccountName'),'diag','.blob.core.windows.net')]"
+
           }
         }
       },

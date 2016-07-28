@@ -33,6 +33,15 @@
       "properties": {
         "accountType": "[parameters('storageAccountType')]"
       }
+    },
+    {
+      "name": "[concat(variables('storageAccountName'), 'diag')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "accountType": "[parameters('storageAccountType')]"
+      }
     }
   ],
   "outputs": {
