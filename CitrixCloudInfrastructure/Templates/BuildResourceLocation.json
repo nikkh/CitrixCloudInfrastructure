@@ -280,8 +280,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/ProvisioningADDomainController",
-        
+        "Microsoft.Resources/deployments/CreateDomainController"
+
       ],
       "properties": {
         "mode": "Incremental",
