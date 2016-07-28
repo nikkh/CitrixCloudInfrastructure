@@ -215,7 +215,7 @@
             "value": "[variables('adSubnetRef')]"
           },
           "publicIPRef": {
-            "value": "[reference('CreateADPublicIP').outputs.publicIpResourceId.value]"
+            "value": "[reference('CreateADPublicIP').outputs.ipaddress.value]"
           }
         }
       }
