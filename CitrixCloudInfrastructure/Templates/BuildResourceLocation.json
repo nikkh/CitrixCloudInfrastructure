@@ -90,15 +90,39 @@
 
     "createbasevnetURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createbasevnet.json')]",
     "createstorageaccountURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createstorageaccount.json')]",
+    "updatevnetdnsserverURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/updatevnetdnsserver.json')]",
     "createavailabilitysetsURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createavailabilitysets.json')]",
     "createdomaincontrollernicURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdomaincontrollernic.json')]",
     "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createDomainController.json')]",
     "provisiondomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'DSC/CreateADPDC.ps1.zip')]",
     "adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
-    "storageAccountNamePrefix": "[parameters('pocEnvironmentName')]"
+    "storageAccountNamePrefix": "[parameters('pocEnvironmentName')]",
+    "createpublicipURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createpublicip.json')]"
 
   },
   "resources": [
+    {
+
+      "name": "CreateADPublicIP",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createpublicipURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "publicIPAddressName": {
+            "value": "[concat(parameters('pocEnvironmentName'), '-AD-PIP')]"
+          }
+
+
+        }
+      }
+
+    },
     {
       "name": "CreateStorageAccount",
       "type": "Microsoft.Resources/deployments",
@@ -170,8 +194,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/CreateResourceLocationVirtualNetwork"
-
+        "Microsoft.Resources/deployments/CreateResourceLocationVirtualNetwork",
+        "Microsoft.Resources/deployments/CreateADPublicIP"
       ],
       "properties": {
         "mode": "Incremental",
@@ -189,6 +213,9 @@
           },
           "adSubnetRef": {
             "value": "[variables('adSubnetRef')]"
+          },
+          "publicIPRef": {
+            "value": "[reference('CreateADPublicIP').outputs.publicIpResourceId.value]"
           }
         }
       }
@@ -201,7 +228,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/CreateAvailabilitySets",
+        "Microsoft.Resources/deployments/CreateStorageAccount",
         "Microsoft.Resources/deployments/CreateResourceLocationVirtualNetwork",
         "Microsoft.Resources/deployments/CreateNetworkInterfaces"
 
@@ -244,6 +271,39 @@
           },
           "domainName": {
             "value": "[variables('adDomain')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "UpdateVNetDNSServer",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/ProvisioningADDomainController",
+        
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('updatevnetdnsserverURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+         
+          "virtualNetworkName": {
+            "value": "[variables('virtualNetworkName')]"
+          },
+          "virtualNetworkAddressRange": {
+            "value": "[parameters('virtualNetworkAddressRange')]"
+          },
+          "subnets": {
+            "value": "[variables('subnets')]"
+          },
+          "DNSServerAddress": {
+            "value": [
+              "[parameters('domainControllerStaticIPAddress')]"
+            ]
           }
         }
       }

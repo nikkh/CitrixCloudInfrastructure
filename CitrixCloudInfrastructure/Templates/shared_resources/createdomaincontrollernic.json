@@ -10,8 +10,10 @@
     },
     "adSubnetRef": {
       "type": "string"
+    },
+    "publicIPRef": {
+      "type": "string"
     }
-
   },
   "resources": [
     {
@@ -28,7 +30,11 @@
               "privateIPAddress": "[parameters('domainControllerStaticIPAddress')]",
               "subnet": {
                 "id": "[parameters('adSubnetRef')]"
+              },
+              "PublicIpAddress": {
+                "Id": ["parameters('publicIPRef')" ]
               }
+
             }
 
           }
@@ -36,5 +42,5 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": { }
 }

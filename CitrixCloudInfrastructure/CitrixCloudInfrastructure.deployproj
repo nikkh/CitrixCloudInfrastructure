@@ -38,7 +38,9 @@
     <None Include="Templates\shared_resources\createavailabilitysets.json" />
     <None Include="Templates\shared_resources\createbasevnet.json" />
     <None Include="Templates\shared_resources\createdomaincontroller.json" />
+    <None Include="Templates\shared_resources\createpublicip.json" />
     <None Include="Templates\shared_resources\createstorageaccount.json" />
+    <None Include="Templates\shared_resources\updatevnetdnsserver.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
