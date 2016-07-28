@@ -32,7 +32,7 @@
                 "id": "[parameters('adSubnetRef')]"
               },
               "PublicIpAddress": {
-                "Id": ["parameters('publicIPRef')" ]
+                "Id": "[parameters('publicIPRef')]"
               }
 
             }
