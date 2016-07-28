@@ -26,8 +26,10 @@
       "type": "string"
     },
     "ipaddress": {
-      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName')),providers('Microsoft.Network', 'publicIPAddresses').apiVersions[0]).ipAddress]",
+      "value": "resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddressName'), providers('Microsoft.Network', 'publicIPAddresses').apiVersions[0]).ipAddress]",
       "type": "string"
+
+     
     }
   }
 
