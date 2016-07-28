@@ -227,8 +227,8 @@
           "adminPassword": {
             "value": "[parameters('adminPassword')]"
           },
-          "storageAccountNamePrefix": {
-            "value": "[variables('storageAccountNamePrefix')]"
+          "storageAccountName": {
+            "value": "[reference(variables('createstorageaccountURL')).outputs.newstoraageaccount.value]"
           },
           "adDataDisk": {
             "value": "[variables('adDataDisk')]"

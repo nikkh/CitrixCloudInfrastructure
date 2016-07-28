@@ -37,9 +37,9 @@
   ],
   "outputs": {
     "NewStorageAccount": {
-      "value": "[reference(variables('storageAccountName'))]",
+      "value": "[variables('storageAccountName')]",
       
-      "type": "object"
+      "type": "string"
 
 
 
