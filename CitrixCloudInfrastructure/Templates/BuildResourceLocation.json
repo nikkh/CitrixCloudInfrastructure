@@ -55,6 +55,8 @@
   "variables": {
     "virtualNetworkName": "[concat(parameters('pocEnvironmentName'),'VNet')]",
     "adVMName": "[concat(parameters('pocEnvironmentName'),'-AD')]",
+    "cc1VMName": "[concat(parameters('pocEnvironmentName'),'-CC1')]",
+    "cc2VMName": "[concat(parameters('pocEnvironmentName'),'-CC2')]",
     "pocAdminUser": "[concat(parameters('pocEnvironmentName'),'admin')]",
     "adDomain": "[concat(parameters('pocEnvironmentName'),'.local')]",
     "adNicName": "[concat(variables('adVMName'), 'nic')]",
@@ -68,6 +70,8 @@
     "vdaSubnetName": "vdaSubnet",
     "cloudConnectorSubnetName": "cloudConnectorSubnet",
     "ccSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('cloudConnectorSubnetName'))]",
+    "cc1NicName": "[concat(variables('cc1VMName'), '-nic')]",
+    "cc2NicName": "[concat(variables('cc2VMName'), '-nic')]",
     "subnets": [
       {
         "name": "[variables('adSubnetName')]",
@@ -334,7 +338,7 @@
         "parameters": {
 
           "nicName": {
-            "value": "[concat(parameters('pocEnvironmentName'),'-CC1-nic')]"
+            "value": "[variables('cc1NicName')]"
           },
           "subnetRef": {
             "value": "[variables('ccSubnetRef')]"
@@ -365,7 +369,7 @@
         "parameters": {
 
           "vmName": {
-            "value": "[concat(parameters('pocEnvironmentName'),'-CC1')]"
+            "value": "[variables('cc1VMName')]"
           },
           "vmSize": {
             "value": "Standard_D1"
@@ -382,7 +386,7 @@
           },
 
           "vmNicName": {
-            "value": "[variables('adNicName')]"
+            "value": "[variables('cc1NicName')]"
           },
           "ccModulesURL": {
             "value": "[variables('domainjoincloudconnectorURL')]"
