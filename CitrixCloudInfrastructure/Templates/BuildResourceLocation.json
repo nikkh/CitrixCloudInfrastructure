@@ -72,6 +72,8 @@
     "ccSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('cloudConnectorSubnetName'))]",
     "cc1NicName": "[concat(variables('cc1VMName'), '-nic')]",
     "cc2NicName": "[concat(variables('cc2VMName'), '-nic')]",
+    "ccAvailabilitySetName": "ccAvailabilitySet",
+    "vdaAvailabilitySetName": "vdaAvailabilitySet",
     "subnets": [
       {
         "name": "[variables('adSubnetName')]",
@@ -195,7 +197,10 @@
         "parameters": {
 
           "cloudConnectorAvailabilitySetName": {
-            "value": "cloudConnectorAvailabilitySet"
+            "value": "[variables('ccAvailabilitySetName')]"
+          },
+          "vdaAvailabilitySetName": {
+            "value": "[variables('vdaAvailabilitySetName')]"
           }
         }
       }
@@ -396,7 +401,11 @@
           },
           "domainName": {
             "value": "[variables('adDomain')]"
+          },
+          "ccAvailabilitySetName": {
+            "value": "[variables('adDomain')]"
           }
+
         }
       }
     }

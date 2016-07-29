@@ -9,7 +9,9 @@
     "vmSize": {
       "type": "string"
     },
-
+    "ccAvailabilitySetName": {
+      "type": "string"
+    },
     "adminUsername": {
       "type": "string"
     },
@@ -43,7 +45,9 @@
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },
-
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('ccAvailabilitySetName'))]"
+        },
         "osProfile": {
           "computerName": "[parameters('vmName')]",
           "adminUsername": "[parameters('adminUsername')]",
@@ -65,7 +69,7 @@
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
-        
+
         },
         "networkProfile": {
           "networkInterfaces": [
