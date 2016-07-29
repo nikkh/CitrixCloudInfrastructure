@@ -555,8 +555,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/CreateSecondCloudConnectorNic"
-
+        "Microsoft.Resources/deployments/CreateSecondCloudConnectorNic",
+        "Microsoft.Resources/deployments/CreateFirstCloudConnector"
 
       ],
       "properties": {
@@ -608,7 +608,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/CreateFirstvdaServerNic"
+        "Microsoft.Resources/deployments/CreateFirstvdaServerNic",
+        "Microsoft.Resources/deployments/CreateSecondCloudConnector"
 
 
       ],
@@ -661,8 +662,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/CreateSecondvdaServerNic"
-
+        "Microsoft.Resources/deployments/CreateSecondvdaServerNic",
+        "Microsoft.Resources/deployments/CreateFirstVDAServer"
 
       ],
       "properties": {
@@ -714,8 +715,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/CreateJumpNic"
-
+        "Microsoft.Resources/deployments/CreateJumpNic",
+        "Microsoft.Resources/deployments/CreateSecondVDAServer"
 
       ],
       "properties": {
