@@ -46,6 +46,7 @@
     <None Include="Templates\shared_resources\updatevnetdnsserver.json" />
     <None Include="Templates\Testing\JustCloudConnector.json" />
     <None Include="Templates\Testing\readme.md" />
+    <None Include="Templates\Testing\shared_resources\createcloudconnector.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
