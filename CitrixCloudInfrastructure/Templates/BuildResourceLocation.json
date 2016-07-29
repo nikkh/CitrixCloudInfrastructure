@@ -57,6 +57,9 @@
     "adVMName": "[concat(parameters('pocEnvironmentName'),'-AD')]",
     "cc1VMName": "[concat(parameters('pocEnvironmentName'),'-CC1')]",
     "cc2VMName": "[concat(parameters('pocEnvironmentName'),'-CC2')]",
+    "vda1VMName": "[concat(parameters('pocEnvironmentName'),'-CC1')]",
+    "vda2VMName": "[concat(parameters('pocEnvironmentName'),'-CC2')]",
+    "jumpVMName": "[concat(parameters('pocEnvironmentName'),'-JUMP')]",
     "pocAdminUser": "[concat(parameters('pocEnvironmentName'),'admin')]",
     "adDomain": "[concat(parameters('pocEnvironmentName'),'.local')]",
     "adNicName": "[concat(variables('adVMName'), 'nic')]",
@@ -70,10 +73,15 @@
     "vdaSubnetName": "vdaSubnet",
     "cloudConnectorSubnetName": "cloudConnectorSubnet",
     "ccSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('cloudConnectorSubnetName'))]",
+    "vdaSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('vdaSubnetName'))]",
     "cc1NicName": "[concat(variables('cc1VMName'), '-nic')]",
     "cc2NicName": "[concat(variables('cc2VMName'), '-nic')]",
+    "jumpNicName": "[concat(variables('jumpVMName'), '-nic')]",
+    "vda1NicName": "[concat(variables('vda1VMName'), '-nic')]",
+    "vda2NicName": "[concat(variables('vda2VMName'), '-nic')]",
     "ccAvailabilitySetName": "ccAvailabilitySet",
     "vdaAvailabilitySetName": "vdaAvailabilitySet",
+    "jumpAvailabilitySetName": "jumpAvailabilitySet",
     "subnets": [
       {
         "name": "[variables('adSubnetName')]",
@@ -131,6 +139,28 @@
 
           "publicIPAddressName": {
             "value": "[concat(parameters('pocEnvironmentName'), '-AD-PIP')]"
+          }
+
+
+        }
+      }
+
+    },
+    {
+
+      "name": "CreateJumpPublicIP",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createpublicipURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "publicIPAddressName": {
+            "value": "[concat(parameters('pocEnvironmentName'), '-JUMP-PIP')]"
           }
 
 
@@ -201,6 +231,9 @@
           },
           "vdaAvailabilitySetName": {
             "value": "[variables('vdaAvailabilitySetName')]"
+          },
+          "jumpAvailabilitySetName": {
+            "value": "[variables('jumpAvailabilitySetName')]"
           }
         }
       }
@@ -348,11 +381,119 @@
           "subnetRef": {
             "value": "[variables('ccSubnetRef')]"
           }
-          
-            
-          }
+
+
         }
-      
+      }
+
+    },
+    {
+      "name": "CreateSecondCloudConnectorNic",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/UpdateVNetDNSServer"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createdynamicipnicURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "nicName": {
+            "value": "[variables('cc2NicName')]"
+          },
+          "subnetRef": {
+            "value": "[variables('ccSubnetRef')]"
+          }
+
+
+        }
+      }
+
+    },
+    {
+      "name": "CreateFirstvdaServerNic",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/UpdateVNetDNSServer"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createdynamicipnicURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "nicName": {
+            "value": "[variables('vda1NicName')]"
+          },
+          "subnetRef": {
+            "value": "[variables('vdaSubnetRef')]"
+          }
+
+
+        }
+      }
+
+    },
+    {
+      "name": "CreateSecondvdaServerNic",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/UpdateVNetDNSServer"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createdynamicipnicURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "nicName": {
+            "value": "[variables('vda2NicName')]"
+          },
+          "subnetRef": {
+            "value": "[variables('vdaSubnetRef')]"
+          }
+
+
+        }
+      }
+
+    },
+    {
+      "name": "CreateJumpNic",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/UpdateVNetDNSServer"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createdynamicipnicURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "nicName": {
+            "value": "[variables('jumpNicName')]"
+          },
+          "subnetRef": {
+            "value": "[variables('ccSubnetRef')]"
+          }
+
+
+        }
+      }
+
     },
 
 
@@ -361,7 +502,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/UpdateVNetDNSServer"
+        "Microsoft.Resources/deployments/CreateFirstCloudConnectorNic"
 
 
       ],
@@ -404,6 +545,218 @@
           },
           "ccAvailabilitySetName": {
             "value": "[variables('ccAvailabilitySetName')]"
+          }
+
+        }
+      }
+    },
+    {
+      "name": "CreateSecondCloudConnector",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/CreateSecondCloudConnectorNic"
+
+
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createcloudconnectorUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "vmName": {
+            "value": "[variables('cc2VMName')]"
+          },
+          "vmSize": {
+            "value": "Standard_D1"
+          },
+
+          "adminUsername": {
+            "value": "[variables('pocAdminUser')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "storageAccountName": {
+            "value": "[reference('CreateStorageAccount').outputs.newStorageAccount.value]"
+          },
+
+          "vmNicName": {
+            "value": "[variables('cc2NicName')]"
+          },
+          "ccModulesURL": {
+            "value": "[variables('domainjoincloudconnectorURL')]"
+          },
+          "ccConfigurationFunction": {
+            "value": "[variables('ccConfigurationFunction')]"
+          },
+          "domainName": {
+            "value": "[variables('adDomain')]"
+          },
+          "ccAvailabilitySetName": {
+            "value": "[variables('ccAvailabilitySetName')]"
+          }
+
+        }
+      }
+    },
+    {
+      "name": "CreateFirstVDAServer",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/CreateFirstvdaServerNic"
+
+
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createcloudconnectorUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "vmName": {
+            "value": "[variables('vda1VMName')]"
+          },
+          "vmSize": {
+            "value": "Standard_D1"
+          },
+
+          "adminUsername": {
+            "value": "[variables('pocAdminUser')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "storageAccountName": {
+            "value": "[reference('CreateStorageAccount').outputs.newStorageAccount.value]"
+          },
+
+          "vmNicName": {
+            "value": "[variables('vda1NicName')]"
+          },
+          "ccModulesURL": {
+            "value": "[variables('domainjoincloudconnectorURL')]"
+          },
+          "ccConfigurationFunction": {
+            "value": "[variables('ccConfigurationFunction')]"
+          },
+          "domainName": {
+            "value": "[variables('adDomain')]"
+          },
+          "ccAvailabilitySetName": {
+            "value": "[variables('vdaAvailabilitySetName')]"
+          }
+
+        }
+      }
+    },
+    {
+      "name": "CreateSecondVDAServer",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/CreateSecondvdaServerNic"
+
+
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createcloudconnectorUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "vmName": {
+            "value": "[variables('vda2VMName')]"
+          },
+          "vmSize": {
+            "value": "Standard_D1"
+          },
+
+          "adminUsername": {
+            "value": "[variables('pocAdminUser')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "storageAccountName": {
+            "value": "[reference('CreateStorageAccount').outputs.newStorageAccount.value]"
+          },
+
+          "vmNicName": {
+            "value": "[variables('vda2NicName')]"
+          },
+          "ccModulesURL": {
+            "value": "[variables('domainjoincloudconnectorURL')]"
+          },
+          "ccConfigurationFunction": {
+            "value": "[variables('ccConfigurationFunction')]"
+          },
+          "domainName": {
+            "value": "[variables('adDomain')]"
+          },
+          "ccAvailabilitySetName": {
+            "value": "[variables('vdaAvailabilitySetName')]"
+          }
+
+        }
+      }
+    },
+    {
+      "name": "CreateJumpServer",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/CreateJumpNic"
+
+
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createcloudconnectorUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "vmName": {
+            "value": "[variables('jumpVMName')]"
+          },
+          "vmSize": {
+            "value": "Standard_D1"
+          },
+
+          "adminUsername": {
+            "value": "[variables('pocAdminUser')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "storageAccountName": {
+            "value": "[reference('CreateStorageAccount').outputs.newStorageAccount.value]"
+          },
+
+          "vmNicName": {
+            "value": "[variables('jumpNicName')]"
+          },
+          "ccModulesURL": {
+            "value": "[variables('domainjoincloudconnectorURL')]"
+          },
+          "ccConfigurationFunction": {
+            "value": "[variables('ccConfigurationFunction')]"
+          },
+          "domainName": {
+            "value": "[variables('adDomain')]"
+          },
+          "ccAvailabilitySetName": {
+            "value": "[variables('jumpAvailabilitySetName')]"
           }
 
         }

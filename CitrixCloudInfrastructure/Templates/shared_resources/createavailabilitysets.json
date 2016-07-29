@@ -8,6 +8,9 @@
     },
     "vdaAvailabilitySetName": {
       "type": "string"
+    },
+    "jumpAvailabilitySetName": {
+      "type": "string"
     }
   },
   "resources": [
@@ -22,7 +25,14 @@
       "name": "[parameters('vdaAvailabilitySetName')]",
       "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]"
+    },
+    {
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[parameters('jumpAvailabilitySetName')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]"
     }
+
 
   ],
   "outputs": { }
