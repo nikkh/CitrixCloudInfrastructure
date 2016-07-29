@@ -92,6 +92,9 @@
           "name": "[concat(parameters('vmName'),'/JoinDomain')]",
           "apiVersion": "2015-06-15",
           "location": "[resourceGroup().location]",
+          "tags": {
+            "AutoShutdownSchedule": "17:00 -> 10:00"
+          },
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
           ],

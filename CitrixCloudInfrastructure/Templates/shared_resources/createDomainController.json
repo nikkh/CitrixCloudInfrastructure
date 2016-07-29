@@ -45,7 +45,9 @@
         "hardwareProfile": {
           "vmSize": "[parameters('adVMSize')]"
         },
-      
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('adAvailabilitySetName'))]"
+        },
         "osProfile": {
           "computerName": "[parameters('adVMName')]",
           "adminUsername": "[parameters('adminUsername')]",
@@ -62,7 +64,7 @@
             "name": "osdisk",
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',toLower(parameters('adVMName')),'-osdisk.vhd')]"
-            
+
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"

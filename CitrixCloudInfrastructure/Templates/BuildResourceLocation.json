@@ -113,7 +113,7 @@
 
     "createcloudconnectorURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createcloudconnector.json')]",
     "domainjoincloudconnectorURL": "[uri(deployment().properties.templateLink.uri, 'DSC/DomainJoinCloudConnector.ps1.zip')]",
-    "ccConfigurationFunction": "DomainJoinCloudConnector.ps1\\JoinDomain",
+    "ccConfigurationFunction": "DomainJoinCloudConnector.ps1\\JoinDomainXXX",
 
     "createdynamicipnicURL": "[uri(deployment().properties.templateLink.uri, 'reusable/createdynamicipnic.json')]",
 
