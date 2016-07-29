@@ -124,27 +124,7 @@
 
   },
   "resources": [
-    {
-      "name": "CreateStorageAccount",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('createstorageaccountURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-
-          "storageAccountType": {
-            "value": "Standard_LRS"
-          },
-          "storageAccountNamePrefix": {
-            "value": "[variables('storageAccountNamePrefix')]"
-          }
-        }
-      }
-    },
+  
 
     {
       "name": "CreateFirstCloudConnector",
@@ -152,7 +132,6 @@
       "apiVersion": "2015-01-01",
       "dependsOn": [
 
-        "Microsoft.Resources/deployments/CreateStorageAccount"
 
       ],
       "properties": {
@@ -177,7 +156,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "storageAccountName": {
-            "value": "[reference('CreateStorageAccount').outputs.newStorageAccount.value]"
+            "value": "ccpoc4yzkgtfcewpba"
           },
 
           "vmNicName": {
