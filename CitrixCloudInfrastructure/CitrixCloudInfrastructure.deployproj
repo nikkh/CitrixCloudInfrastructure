@@ -34,6 +34,9 @@
     <None Include="Templates\buildresourcelocation.json" />
     <None Include="Templates\buildresourcelocation.parameters.json" />
     <None Include="Templates\DSC\CreateADPDC.ps1.zip" />
+    <None Include="Templates\DSC\DomainJoinCloudConnector.ps1.zip" />
+    <None Include="Templates\reusable\createdynamicipnic.json" />
+    <None Include="Templates\shared_resources\createcloudconnector.json" />
     <None Include="Templates\shared_resources\createdomaincontrollernic.json" />
     <None Include="Templates\shared_resources\createavailabilitysets.json" />
     <None Include="Templates\shared_resources\createbasevnet.json" />

@@ -67,6 +67,7 @@
     "adSubnetName": "adSubnet",
     "vdaSubnetName": "vdaSubnet",
     "cloudConnectorSubnetName": "cloudConnectorSubnet",
+    "ccSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('cloudConnectorSubnetName'))]",
     "subnets": [
       {
         "name": "[variables('adSubnetName')]",
@@ -94,6 +95,14 @@
     "createavailabilitysetsURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createavailabilitysets.json')]",
     "createdomaincontrollernicURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdomaincontrollernic.json')]",
     "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createDomainController.json')]",
+
+
+    "createcloudconnectorURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createcloudconnector.json')]",
+    "domainjoincloudconnectorURL": "[uri(deployment().properties.templateLink.uri, 'DSC/DomainJoinCloudConnector.ps1.zip')]",
+    "ccConfigurationFunction": "DomainJoinCloudConnector.ps1\\JoinDomain",
+
+    "createdynamicipnicURL": "[uri(deployment().properties.templateLink.uri, 'reusable/createdynamicipnic.json')]",
+
     "provisiondomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'DSC/CreateADPDC.ps1.zip')]",
     "adConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
     "storageAccountNamePrefix": "[parameters('pocEnvironmentName')]",
@@ -289,7 +298,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-         
+
           "virtualNetworkName": {
             "value": "[variables('virtualNetworkName')]"
           },
@@ -303,6 +312,86 @@
             "value": [
               "[parameters('domainControllerStaticIPAddress')]"
             ]
+          }
+        }
+      }
+    },
+
+
+    {
+      "name": "CreateFirstCloudConnectorNic",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/UpdateVNetDNSServer"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createdynamicipnicURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "nicName": {
+            "value": "[concat(parameters('pocEnvironmentName'),'-CC1-nic')]"
+          },
+          "subnetRef": {
+            "value": "[variables('ccSubnetRef')]"
+          }
+          
+            
+          }
+        }
+      
+    },
+
+
+    {
+      "name": "CreateFirstCloudConnector",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/UpdateVNetDNSServer"
+
+
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('createcloudconnectorUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+
+          "vmMName": {
+            "value": "[concat(parameters('pocEnvironmentName'),'-CC1')]"
+          },
+          "vmSize": {
+            "value": "Standard_D1"
+          },
+
+          "adminUsername": {
+            "value": "[variables('pocAdminUser')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "storageAccountName": {
+            "value": "[reference('CreateStorageAccount').outputs.newStorageAccount.value]"
+          },
+
+          "vmNicName": {
+            "value": "[variables('adNicName')]"
+          },
+          "ccModulesURL": {
+            "value": "[variables('domainjoincloudconnectorURL')]"
+          },
+          "ccConfigurationFunction": {
+            "value": "[variables('ccConfigurationFunction')]"
+          },
+          "domainName": {
+            "value": "[variables('adDomain')]"
           }
         }
       }
