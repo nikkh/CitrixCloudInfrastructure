@@ -44,6 +44,7 @@
     <None Include="Templates\shared_resources\createpublicip.json" />
     <None Include="Templates\shared_resources\createstorageaccount.json" />
     <None Include="Templates\shared_resources\updatevnetdnsserver.json" />
+    <None Include="Templates\Testing\JustCloudConnector.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
