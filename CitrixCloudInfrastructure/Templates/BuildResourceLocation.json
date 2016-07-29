@@ -403,7 +403,7 @@
             "value": "[variables('adDomain')]"
           },
           "ccAvailabilitySetName": {
-            "value": "[variables('adDomain')]"
+            "value": "[variables('ccAvailabilitySetName')]"
           }
 
         }
