@@ -109,32 +109,32 @@
         }
       }
     },
-      {
-        "apiVersion": "2015-06-15",
-        "type": "Microsoft.Compute/virtualMachines/extensions",
-        "name": "[concat(parameters('vmName'),'/joindomain')]",
-        "location": "[resourceGroup().location]",
-        "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
-        ],
-        "properties": {
-          "publisher": "Microsoft.Compute",
-          "type": "JsonADDomainExtension",
-          "typeHandlerVersion": "1.3",
-          "autoUpgradeMinorVersion": true,
-          "settings": {
-            "Name": "[parameters('domainName')]",
-            "OUPath": "[parameters('ouPath')]",
-            "User": "[concat(parameters('domainName'), variables('backslash'), parameters('domainName'))]",
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('vmName'),'/joindomain')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('CreateVM-',parameters('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.3",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "Name": "[parameters('domainName')]",
+          "OUPath": "[parameters('ouPath')]",
+          "User": "[concat(parameters('domainName'), variables('backslash'), parameters('domainName'))]",
 
-            "Restart": "true",
-            "Options": "[parameters('domainJoinOptions')]"
-          },
-          "protectedsettings": {
-            "Password": "[parameters('adminPassword')]"
-          }
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "protectedsettings": {
+          "Password": "[parameters('adminPassword')]"
         }
-      
+      }
+
 
     }
   ],
