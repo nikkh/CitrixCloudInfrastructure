@@ -58,7 +58,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "parameters('vmName')",
+      "name": "[parameters('vmName')]",
       "location": "[resourceGroup().location]",
       "tags": {
         "AutoShutdownSchedule": "17:00 -> 10:00"
@@ -115,8 +115,8 @@
       "name": "[concat(parameters('vmName'),'/joindomain')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        
-        "parameters('vmName')"
+
+        "[parameters('vmName')]"
 
       ],
       "properties": {
