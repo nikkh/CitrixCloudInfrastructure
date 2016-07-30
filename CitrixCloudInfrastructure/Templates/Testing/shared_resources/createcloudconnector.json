@@ -134,7 +134,7 @@
             "Password": "[parameters('adminPassword')]"
           }
         }
-      }
+      
 
     }
   ],
