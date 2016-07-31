@@ -108,7 +108,7 @@
     "updatevnetdnsserverURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/updatevnetdnsserver.json')]",
     "createavailabilitysetsURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createavailabilitysets.json')]",
     "createdomaincontrollernicURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdomaincontrollernic.json')]",
-    "createdynamicipnicwithpublicipURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdynamicipnicwithpublicip.json')]",
+    "createdynamicipnicwithpublicipURL": "[uri(deployment().properties.templateLink.uri, 'reusable/createdynamicipnicwithpublicip.json')]",
     "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createDomainController.json')]",
 
 
