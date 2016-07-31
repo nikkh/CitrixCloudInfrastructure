@@ -1,6 +1,6 @@
 # Citrix Cloud Infrastucture
 
-This template creates an Azure infrastructure that forms a resource location for a Cirix Cloud deployment.
+This template creates an Azure infrastructure that forms a resource location for a Citrix Cloud deployment.
 
 To learn more, <a href="https://github.com/nikkh/CitrixCloudInfrastructure/wiki">see the Citrix Cloud Infrastructure Wiki
 
