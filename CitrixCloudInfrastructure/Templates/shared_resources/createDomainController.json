@@ -45,9 +45,7 @@
         "hardwareProfile": {
           "vmSize": "[parameters('adVMSize')]"
         },
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('adAvailabilitySetName'))]"
-        },
+       
         "osProfile": {
           "computerName": "[parameters('adVMName')]",
           "adminUsername": "[parameters('adminUsername')]",
