@@ -141,7 +141,7 @@
             "value": "[concat(parameters('pocEnvironmentName'), '-JUMP-PIP')]"
           },
           "dnsName": {
-            "value": "[concat(variables('jumpVMName'), '-', uniqueString(resourceGroup().id))]"
+            "value": "[concat(parameters('pocEnvironmentName'),  uniqueString(resourceGroup().id))]"
           }
           
 
