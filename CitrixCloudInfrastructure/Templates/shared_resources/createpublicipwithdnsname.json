@@ -5,7 +5,7 @@
     "publicIPAddressName": {
       "type": "string"
     },
-    "dnsPrefix": {
+    "dnsName": {
       "type": "string"
     }
   },
@@ -18,7 +18,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsPrefix')]"
+          "domainNameLabel": "[parameters('dnsName')]"
         }
 
       }
