@@ -1,6 +1,6 @@
 # Citrix Cloud Infrastucture
 
-Citrix Cloud is a control plane to manage all Citrix technologies. This cloud-based approach means reduced infrastructure, centralized control and SaaS-style updates, contributing to lower administration cost and complexity. To learn more see the <a href="https://www.citrix.com/products/citrix-cloud/"> the Citrix Cloud Home Page
+Citrix Cloud is a control plane to manage all Citrix technologies. This cloud-based approach means reduced infrastructure, centralized control and SaaS-style updates, contributing to lower administration cost and complexity. To learn more see the <a href="https://www.citrix.com/products/citrix-cloud/"> the Citrix Cloud Home Page</a>
 
 This template creates an Azure infrastructure that forms a resource location for a Citrix Cloud deployment.
 

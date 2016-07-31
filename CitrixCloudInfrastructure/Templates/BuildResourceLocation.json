@@ -334,7 +334,7 @@
           },
           "DNSServerAddress": {
             "value": [
-              "[parameters('domainControllerStaticIPAddress')]"
+              "[variables('zzDomainControllerStaticIPAddress')]"
             ]
           }
         }
