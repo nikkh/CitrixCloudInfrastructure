@@ -21,13 +21,6 @@
         "description": "The address range of the VNET for this resource location "
       },
       "defaultValue": "10.60.0.0/16"
-    },
-    "domainControllerStaticIPAddress": {
-      "type": "string",
-      "metadata": {
-        "description": "The IP address of the new AD VM"
-      },
-      "defaultValue": "10.60.0.4"
     }
 
   },
