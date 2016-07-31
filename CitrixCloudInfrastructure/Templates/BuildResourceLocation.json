@@ -22,27 +22,6 @@
       },
       "defaultValue": "10.60.0.0/16"
     },
-    "adSubnetRange": {
-      "type": "string",
-      "metadata": {
-        "description": "The address range of the AD subnet created in the new VNET"
-      },
-      "defaultValue": "10.60.0.0/24"
-    },
-    "cloudConnectorSubnetRange": {
-      "type": "string",
-      "metadata": {
-        "description": "The address range of the Cloud Connector subnet created in the new VNET"
-      },
-      "defaultValue": "10.60.1.0/24"
-    },
-    "vdaSubnetRange": {
-      "type": "string",
-      "metadata": {
-        "description": "The address range of the VDA subnet created in the new VNET"
-      },
-      "defaultValue": "10.60.2.0/24"
-    },
     "domainControllerStaticIPAddress": {
       "type": "string",
       "metadata": {
@@ -54,6 +33,11 @@
   },
   "variables": {
     "virtualNetworkName": "[concat(parameters('pocEnvironmentName'),'VNet')]",
+    "zzVnetCIDR": "[substring(parameters('virtualNetworkAddressRange'), 0, 5)]",
+    "zzADSubnetRange": "[concat(variables('zzVnetCIDR'), '.0.0/24')]",
+    "zzCCSubnetRange": "[concat(variables('zzVnetCIDR'), '.1.0/24')]",
+    "zzVDASubnetRange": "[concat(variables('zzVnetCIDR'), '.2.0/24')]",
+    "zzDomainControllerStaticIPAddress": "[concat(variables('zzVnetCIDR'), '.0.4')]",
     "adVMName": "[concat(parameters('pocEnvironmentName'),'-AD')]",
     "cc1VMName": "[concat(parameters('pocEnvironmentName'),'-CC1')]",
     "cc2VMName": "[concat(parameters('pocEnvironmentName'),'-CC2')]",
@@ -86,19 +70,19 @@
       {
         "name": "[variables('adSubnetName')]",
         "properties": {
-          "addressPrefix": "[parameters('adSubnetRange')]"
+          "addressPrefix": "[variables('zzADSubnetRange')]"
         }
       },
       {
         "name": "[variables('vdaSubnetName')]",
         "properties": {
-          "addressPrefix": "[parameters('vdaSubnetRange')]"
+          "addressPrefix": "[variables('zzVDASubnetRange')]"
         }
       },
       {
         "name": "[variables('cloudConnectorSubnetName')]",
         "properties": {
-          "addressPrefix": "[parameters('cloudConnectorSubnetRange')]"
+          "addressPrefix": "[variables('zzCCSubnetRange')]"
         }
       }
     ],
@@ -110,7 +94,7 @@
     "createdomaincontrollernicURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createdomaincontrollernic.json')]",
     "createdynamicipnicwithpublicipURL": "[uri(deployment().properties.templateLink.uri, 'reusable/createdynamicipnicwithpublicip.json')]",
     "createdomaincontrollerURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createDomainController.json')]",
-
+    "createpublicipwithdnsnameURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createpublicipwithdnsname.json')]",
 
     "createcloudconnectorURL": "[uri(deployment().properties.templateLink.uri, 'shared_resources/createcloudconnector.json')]",
     "domainjoincloudconnectorURL": "[uri(deployment().properties.templateLink.uri, 'DSC/DomainJoinCloudConnector.ps1.zip')]",
@@ -155,14 +139,18 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('createpublicipURL')]",
+          "uri": "[variables('createpublicipwithdnsnameURL')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
 
           "publicIPAddressName": {
             "value": "[concat(parameters('pocEnvironmentName'), '-JUMP-PIP')]"
+          },
+          "dnsName": {
+            "value": "[concat(variables('jumpVMName'), '-', uniqueString(resourceGroup().id))]"
           }
+          
 
 
         }
@@ -261,7 +249,7 @@
             "value": "[variables('adNicName')]"
           },
           "domainControllerStaticIPAddress": {
-            "value": "[parameters('domainControllerStaticIPAddress')]"
+            "value": "[variables('zzDomainControllerStaticIPAddress')]"
           },
           "adSubnetRef": {
             "value": "[variables('adSubnetRef')]"
@@ -545,14 +533,16 @@
             "value": "[variables('ccConfigurationFunction')]"
           },
           "domainName": {
-            "value": "ccpoc.local"
-          },
+            "value": "[variables('adDomain')]"
+          }
+
+        },
           "ccAvailabilitySetName": {
             "value": "[variables('ccAvailabilitySetName')]"
           }
 
         }
-      }
+      
     },
     {
       "name": "CreateSecondCloudConnector",
