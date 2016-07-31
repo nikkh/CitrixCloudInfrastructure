@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "CitrixCloudInfrastructure", "CitrixCloudInfrastructure\CitrixCloudInfrastructure.deployproj", "{216DAEDA-F690-49D5-930B-739B004046FE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D5DF4DC-5C75-4233-8083-6C6A72593F93}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
