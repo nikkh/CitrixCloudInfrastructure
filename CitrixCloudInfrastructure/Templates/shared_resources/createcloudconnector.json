@@ -127,7 +127,7 @@
         "settings": {
           "Name": "[parameters('domainName')]",
           "OUPath": "[parameters('ouPath')]",
-          "User": "[concat(parameters('domainName'), variables('backslash'), parameters('domainName'))]",
+          "User": "[concat(parameters('domainName'), variables('backslash'), parameters('adminUsername'))]",
 
           "Restart": "true",
           "Options": "[parameters('domainJoinOptions')]"
