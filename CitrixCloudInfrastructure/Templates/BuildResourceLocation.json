@@ -6,7 +6,7 @@
       "type": "string",
       "metadata": {
         "description": "This is the root name for all resources created as part of this template.  For example if you specify mypoc here the domain controller will be mypoc-AD.  please use only lowercase letters."
-      },
+      }, 
       "defaultValue": "ccpoc"
     },
     "adminPassword": {
