@@ -35,6 +35,7 @@
     <None Include="Templates\buildresourcelocation.parameters.json" />
     <None Include="Templates\DSC\CreateADPDC.ps1.zip" />
     <None Include="Templates\DSC\DomainJoinCloudConnector.ps1.zip" />
+    <None Include="Templates\reusable\createdynamicipnicwithpublicip.json" />
     <None Include="Templates\reusable\createdynamicipnic.json" />
     <None Include="Templates\shared_resources\createcloudconnector.json" />
     <None Include="Templates\shared_resources\createdomaincontrollernic.json" />
@@ -44,11 +45,6 @@
     <None Include="Templates\shared_resources\createpublicip.json" />
     <None Include="Templates\shared_resources\createstorageaccount.json" />
     <None Include="Templates\shared_resources\updatevnetdnsserver.json" />
-    <None Include="Templates\Testing\DSC\CreateADPDC.ps1.zip" />
-    <None Include="Templates\Testing\DSC\DomainJoinCloudConnector.ps1.zip" />
-    <None Include="Templates\Testing\JustCloudConnector.json" />
-    <None Include="Templates\Testing\readme.md" />
-    <None Include="Templates\Testing\shared_resources\createcloudconnector.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
