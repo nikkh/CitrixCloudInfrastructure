@@ -491,8 +491,8 @@
             "value": "[variables('ccSubnetRef')]"
           },
 
-          "PublicIpAddress": {
-            "value": "[concat(parameters('pocEnvironmentName'), '-JUMP-PIP')]"
+          "publicIPRef": {
+            "value": "[reference('CreateJumpPublicIP').outputs.publicIpAddressResourceId.value]"
           }
 
         }
