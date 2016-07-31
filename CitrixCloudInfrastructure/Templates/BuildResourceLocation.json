@@ -527,15 +527,15 @@
           },
           "domainName": {
             "value": "[variables('adDomain')]"
-          }
+          },
 
-        },
           "ccAvailabilitySetName": {
             "value": "[variables('ccAvailabilitySetName')]"
           }
 
         }
-      
+
+      }
     },
     {
       "name": "CreateSecondCloudConnector",
