@@ -1,6 +1,8 @@
-# Create a new Environment with 3 VMs
+# Citrix Cloud Infrastucture
 
-This template creates three new Azure VMs, each with a public IP address and load balancer and a VNet, it configures one VM to be an AD DC for a new Forest and Domain, one with SQL Server domain joined and a third VM with an IIS Web Server, all VMs have public facing RDP
+This template creates an Azure infrastructure that forms a resource location for a Cirix Cloud deployment.
+
+To learn more, see the [[Citrix Cloud Infrastructure Wiki|wiki]]
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnikkh%2FCitrixCloudInfrastructure%2Fmaster%2FCitrixCloudInfrastructure%2FTemplates%2FBuildResourceLocation.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
