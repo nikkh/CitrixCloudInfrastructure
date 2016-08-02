@@ -25,9 +25,24 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
+    <None Include="assets\AddConnection01.png" />
+    <None Include="assets\AddConnection02.png" />
+    <None Include="assets\AddConnection03.png" />
+    <None Include="assets\AddConnection04.png" />
+    <None Include="assets\AddConnection05.png" />
     <None Include="assets\cc-idam-domain.png" />
     <None Include="assets\cc-resourcelocation.png" />
     <None Include="assets\ccpoc-architecture.png" />
+    <None Include="assets\CreateCatalog01.png" />
+    <None Include="assets\CreateCatalog02.png" />
+    <None Include="assets\CreateCatalog03.png" />
+    <None Include="assets\CreateCatalog04.png" />
+    <None Include="assets\CreateCatalog05.png" />
+    <None Include="assets\CreateCatalog06.png" />
+    <None Include="assets\CreateCatalog07.png" />
+    <None Include="assets\CreateCatalog08.png" />
+    <None Include="assets\CreateCatalog09.png" />
+    <None Include="assets\CreateCatalog10.png" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
