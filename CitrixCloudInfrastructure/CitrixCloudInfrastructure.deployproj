@@ -33,6 +33,10 @@
     <None Include="assets\cc-idam-domain.png" />
     <None Include="assets\cc-resourcelocation.png" />
     <None Include="assets\ccpoc-architecture.png" />
+    <None Include="assets\ConfiguringYourWorkspaces01.png" />
+    <None Include="assets\ConfiguringYourWorkspaces02.png" />
+    <None Include="assets\ConfiguringYourWorkspaces03.png" />
+    <None Include="assets\ConfiguringYourWorkspaces04.png" />
     <None Include="assets\CreateCatalog01.png" />
     <None Include="assets\CreateCatalog02.png" />
     <None Include="assets\CreateCatalog03.png" />
@@ -43,6 +47,17 @@
     <None Include="assets\CreateCatalog08.png" />
     <None Include="assets\CreateCatalog09.png" />
     <None Include="assets\CreateCatalog10.png" />
+    <None Include="assets\CreateCatalog11.png" />
+    <None Include="assets\CreateDeliveryGroup01.png" />
+    <None Include="assets\CreateDeliveryGroup02.png" />
+    <None Include="assets\CreateDeliveryGroup03.png" />
+    <None Include="assets\CreateDeliveryGroup04.png" />
+    <None Include="assets\CreateDeliveryGroup05.png" />
+    <None Include="assets\CreateDeliveryGroup06.png" />
+    <None Include="assets\UsingStorefront01.png" />
+    <None Include="assets\UsingStorefront02.png" />
+    <None Include="assets\UsingStorefront03.png" />
+    <None Include="assets\UsingStorefront04.png" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
